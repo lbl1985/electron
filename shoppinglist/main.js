@@ -32,13 +32,13 @@ app.on('ready', function(){
 // Handle create add window
 function createAddWindow(){
     // create New window
-    addWindown = new BrowserWindow({
+    addWindow = new BrowserWindow({
         width: 300,
         height: 200,
         title: 'Add Shopping List Items'
     });
     // Load html into window
-    addWindown.loadURL(url.format({
+    addWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'addWindow.html'),
         protocol: 'file:',
         slashes: true
