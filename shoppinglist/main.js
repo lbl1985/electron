@@ -2,24 +2,24 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
-const {app, BrowserWindow, Menu} = electron;
+const {app, BrowserWindow, Menu, ipcMain} = electron;
 
-let mainWindown;
+let mainWindow;
 let addWindow;
 
 // Listen for app to be ready 
 app.on('ready', function(){
     // create New window
-    mainWindown = new BrowserWindow({});
+    mainWindow = new BrowserWindow({});
     // Load html into window
-    mainWindown.loadURL(url.format({
+    mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'mainWindow.html'),
         protocol: 'file:',
         slashes: true
     }));
 
     // Quit app when closed
-    mainWindown.on('closed', function(){
+    mainWindow.on('closed', function(){
         app.quit();
     })
 
@@ -48,6 +48,12 @@ function createAddWindow(){
         addWindow = null;
     });
 }
+
+// Catch item: add
+ipcMain.on('item:add', function(e, item){
+    mainWindow.webContents.send('item:add', item);
+    addWindow.close();
+});
 
 // Create menu template
 const mainMenuTemplate = [    
