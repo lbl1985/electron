@@ -43,10 +43,14 @@ function createAddWindow(){
         protocol: 'file:',
         slashes: true
     }));
+    // gabage collection handle
+    addWindow.on('closed', function(){
+        addWindow = null;
+    });
 }
 
 // Create menu template
-const mainMenuTemplate = [
+const mainMenuTemplate = [    
     {
         label:'File', 
         submenu:[
@@ -69,3 +73,28 @@ const mainMenuTemplate = [
         ]
     }
 ];
+
+// If mac, add empty object to menu
+if(process.platform == 'darwin'){
+    mainMenuTemplate.unshift({}); // put item into front of the array;
+}
+
+// Add developer tools item if not in production
+if(process.env.NODE_ENV != 'production') {
+    mainMenuTemplate.push({
+        label: 'Developer Tools',
+        submenu: [
+            {
+                label: 'Toggle DevTools',
+                accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
+                click(item, focusedWindow){
+                    focusedWindow.toggleDevTools();
+
+                }
+            },
+            {
+                role: 'reload'
+            }
+        ]
+    })
+}
