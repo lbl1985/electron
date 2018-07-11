@@ -62,13 +62,17 @@ const mainMenuTemplate = [
         submenu:[
             {
                 label: 'Add Item',
-                accelerator: process.platform == 'darwin' ? 'Command+B' : "Ctrl+B",
+                accelerator: process.platform == 'darwin' ? 'Command+N' : 'Ctrl+N',
                 click(){
                     createAddWindow();
                 }
             },
             {
-                label: 'Clear Items'
+                label: 'Clear Items',
+                accelerator: process.platform == 'darwin' ? 'Command+L' : 'Ctrl+L',
+                click(){
+                    mainWindow.webContents.send('item:clear');
+                }
             },
             {
                 label: 'Quit', 
